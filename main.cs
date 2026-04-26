@@ -68,8 +68,16 @@ public class Program
                         }
                     };
     
-        var result=(from c in customers select c.FullName).Aggregate((x,y)=>x + "," + y);
-        Console.WriteLine(result);
+      // Aggregate ticket titles into a summary sentence
+    string ticketSummary = (from c in customers
+                            from t in c.Tickets
+                            select t.Title)
+                            .Aggregate(
+                                seed: "Tickets: ",
+                                func: (summary, title) => summary + $"[{title}] ",
+                                resultSelector: s => s.TrimEnd()
+                            );
+    Console.WriteLine($"Aggregate  (ticket summary)     : {ticketSummary}");
         // foreach (var item in result)
         // {
         //     Console.WriteLine($"{item}");
