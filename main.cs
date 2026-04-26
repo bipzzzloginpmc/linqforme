@@ -68,9 +68,9 @@ public class Program
                         }
                     };
     
-     var result=(from c in customers select c.Tickets.Count).Min();
+     var result=(from c in customers select c.Tickets.Count).Sum();
 
-    Console.WriteLine($"Min {result}");
+    Console.WriteLine($"Sum {result}");
         // foreach (var item in result)
         // {
         //     Console.WriteLine($"{item}");
