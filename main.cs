@@ -68,12 +68,11 @@ public class Program
                         }
                     };
         
-        var result=customers.All(x=>x.Tickets.Count>10);
-        Console.WriteLine(result);
-        // foreach (var item in result)
-        // {
-        //     Console.WriteLine($"{item} - {item.ticket} - {item.comment}");
-        // }
+        var result=from c in customers where c.Tickets.All(t=>t.Status=="Open") select c.FullName;
+        foreach (var item in result)
+        {
+            Console.WriteLine($"{item}");
+        }
     
     }
 }
