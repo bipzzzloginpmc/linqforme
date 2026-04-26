@@ -74,10 +74,10 @@ public class Program
         // Contains()
         // Takes a value. Checks if that exact value exists. Best for simple types.
 
-        var result=from c in customers from t in c.Tickets where t.Comments.Any(x=>x.CreatedAt.Date<=DateTime.Now) select t;
+        var result=from c in customers select c.FullName.Contains("Hello");
         foreach (var item in result)
         {
-            Console.WriteLine($"{item.TicketId}");
+            Console.WriteLine($"{item}");
         }
     
     }
