@@ -68,29 +68,10 @@ public class Program
                         }
                     };
     
-     var result = (from c in customers
-              from t in c.Tickets
-              select t.Status)
-             .Distinct();
-
-    var resolvedTicketIds = new List<int> { 102, 104 };     
-    var result = (from id in allTicketIds
-              select id)
-             .Except(resolvedTicketIds);
-
-    var result = (from id in morningTickets
-              select id)
-             .Intersect(eveningTickets);
-
-
-    var result = (from id in teamATickets
-              select id)
-             .Union(teamBTickets);
-             
-                                   
+     var result = from c in customers select c.FullName.Reverse().ToArray();
         foreach (var item in result)
         {
-            Console.WriteLine($"{item}");
+            Console.WriteLine($"{String.Concat(item)}");
         }
     
     }
