@@ -68,9 +68,9 @@ public class Program
                         }
                     };
     
-     var result=(from c in customers where c.CustomerId >1 select c.Tickets).LongCount();
+     var result=(from c in customers select c.Tickets.Count).Max();
 
-    Console.WriteLine($"Count {result}");
+    Console.WriteLine($"MAX {result}");
         // foreach (var item in result)
         // {
         //     Console.WriteLine($"{item}");
