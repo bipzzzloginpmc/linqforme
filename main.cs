@@ -68,14 +68,15 @@ public class Program
                         }
                     };
         
-        var result=from c in customers from t in c.Tickets select new
+        var result=from c in customers from t in c.Tickets from cm in t.Comments select new
         {
-            title=t.Title,
-            customer=c.FullName
+            customer=c.FullName,
+            ticket=t.Title,
+            comment=cm.Text
         };
         foreach (var item in result)
         {
-            Console.WriteLine($"{item.customer} - {item.title}");
+            Console.WriteLine($"{item.customer} - {item.ticket} - {item.comment}");
         }
     
     }
