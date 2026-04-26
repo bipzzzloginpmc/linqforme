@@ -67,18 +67,13 @@ public class Program
                             }
                         }
                     };
-        
-        // Any()
-        // Takes a condition. Checks each element with your logic. Works on any object.
-
-        // Contains()
-        // Takes a value. Checks if that exact value exists. Best for simple types.
-
-        var result=from c in customers select c.FullName.Contains("Hello");
-        foreach (var item in result)
-        {
-            Console.WriteLine($"{item}");
-        }
+    
+        var result=(from c in customers select c.FullName).Aggregate((x,y)=>x + "," + y);
+        Console.WriteLine(result);
+        // foreach (var item in result)
+        // {
+        //     Console.WriteLine($"{item}");
+        // }
     
     }
 }
