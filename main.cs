@@ -68,16 +68,12 @@ public class Program
                         }
                     };
         
-        var result=from c in customers from t in c.Tickets from cm in t.Comments select new
-        {
-            customer=c.FullName,
-            ticket=t.Title,
-            comment=cm.Text
-        };
-        foreach (var item in result)
-        {
-            Console.WriteLine($"{item.customer} - {item.ticket} - {item.comment}");
-        }
+        var result=customers.All(x=>x.Tickets.Count>10);
+        Console.WriteLine(result);
+        // foreach (var item in result)
+        // {
+        //     Console.WriteLine($"{item} - {item.ticket} - {item.comment}");
+        // }
     
     }
 }
