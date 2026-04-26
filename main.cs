@@ -68,109 +68,29 @@ public class Program
                         }
                     };
     
-     // ── ElementAt ──────────────────────────────────────────────────────────────
-    // Get customer at index 1 (Ram Sharma)
-    Customer elementAt = (from c in customers select c)
-                            .ElementAt(1);
-    Console.WriteLine($"ElementAt(1)                    : {elementAt.FullName}");
+var result = from c  in customers
+             from t  in c.Tickets.DefaultIfEmpty()
+             select new
+             {
+                 CustomerName = c.FullName,
+                 TicketTitle  = t == null ? "No Tickets" : t.Title
+             };
 
-    // Get second ticket across all tickets (index 1)
-    Ticket ticketAt = (from c in customers
-                       from t in c.Tickets
-                       select t).ElementAt(1);
-    Console.WriteLine($"ElementAt(1) ticket             : {ticketAt.Title}");
+foreach (var item in result)
+    Console.WriteLine($"{item.CustomerName} - {item.TicketTitle}");
 
-    // ── ElementAtOrDefault ─────────────────────────────────────────────────────
-    // Index exists → returns customer
-    Customer elementAtOrDefault = (from c in customers select c)
-                                    .ElementAtOrDefault(0);
-    Console.WriteLine($"ElementAtOrDefault(0)           : {elementAtOrDefault?.FullName}");
 
-    // Index out of range → returns null (default for reference type)
-    Customer outOfRange = (from c in customers select c)
-                            .ElementAtOrDefault(99);
-    Console.WriteLine($"ElementAtOrDefault(99)          : {outOfRange?.FullName ?? "null (out of range)"}");
 
-    // ── First ──────────────────────────────────────────────────────────────────
-    // First customer in the list
-    Customer firstCustomer = (from c in customers select c)
-                                .First();
-    Console.WriteLine($"First      (customer)           : {firstCustomer.FullName}");
 
-    // First ticket with Status = "Closed"
-    Ticket firstClosed = (from c in customers
-                          from t in c.Tickets
-                          where t.Status == "Closed"
-                          select t).First();
-    Console.WriteLine($"First      (closed ticket)      : {firstClosed.Title}");
+ var defaultTicket = new Ticket { TicketId=0, Title="No Ticket", Status="N/A" };
 
-    // ── FirstOrDefault ─────────────────────────────────────────────────────────
-    // First customer whose email starts with "bipin"
-    Customer firstOrDefault = (from c in customers
-                                where c.Email.StartsWith("bipin")
-                                select c).FirstOrDefault();
-    Console.WriteLine($"FirstOrDefault (bipin@...)      : {firstOrDefault?.FullName}");
-
-    // No match → returns null
-    Customer noMatch = (from c in customers
-                        where c.Email.StartsWith("xyz")
-                        select c).FirstOrDefault();
-    Console.WriteLine($"FirstOrDefault (no match)       : {noMatch?.FullName ?? "null (no match)"}");
-
-    // ── Last ───────────────────────────────────────────────────────────────────
-    // Last customer in the list
-    Customer lastCustomer = (from c in customers select c)
-                                .Last();
-    Console.WriteLine($"Last       (customer)           : {lastCustomer.FullName}");
-
-    // Last Open ticket across all tickets
-    Ticket lastOpen = (from c in customers
-                       from t in c.Tickets
-                       where t.Status == "Open"
-                       select t).Last();
-    Console.WriteLine($"Last       (open ticket)        : {lastOpen.Title}");
-
-    // ── LastOrDefault ──────────────────────────────────────────────────────────
-    // Last comment across all tickets
-    Comment lastComment = (from c in customers
-                           from t in c.Tickets
-                           from cm in t.Comments
-                           select cm).LastOrDefault();
-    Console.WriteLine($"LastOrDefault (last comment)    : {lastComment?.Text}");
-
-    // No match → returns null
-    Ticket noTicket = (from c in customers
-                       from t in c.Tickets
-                       where t.Status == "Pending"
-                       select t).LastOrDefault();
-    Console.WriteLine($"LastOrDefault (no match)        : {noTicket?.Title ?? "null (no match)"}");
-
-    // ── Single ─────────────────────────────────────────────────────────────────
-    // Exactly one customer with CustomerId = 1
-    Customer singleCustomer = (from c in customers
-                                where c.CustomerId == 1
-                                select c).Single();
-    Console.WriteLine($"Single     (CustomerId = 1)     : {singleCustomer.FullName}");
-
-    // Exactly one closed ticket in the whole list
-    Ticket singleClosed = (from c in customers
-                           from t in c.Tickets
-                           where t.Status == "Closed"
-                           select t).Single();
-    Console.WriteLine($"Single     (closed ticket)      : {singleClosed.Title}");
-
-    // ── SingleOrDefault ────────────────────────────────────────────────────────
-    // One match → returns it
-    Customer singleOrDefault = (from c in customers
-                                 where c.CustomerId == 2
-                                 select c).SingleOrDefault();
-    Console.WriteLine($"SingleOrDefault (CustomerId=2)  : {singleOrDefault?.FullName}");
-
-    // No match → returns null (does NOT throw)
-    Customer singleNoMatch = (from c in customers
-                               where c.CustomerId == 99
-                               select c).SingleOrDefault();
-    Console.WriteLine($"SingleOrDefault (no match)      : {singleNoMatch?.FullName ?? "null (no match)"}");
-    
-    }
+var result = from c in customers
+             from t in c.Tickets.DefaultIfEmpty(defaultTicket)
+             select new
+             {
+                 CustomerName = c.FullName,
+                 TicketId     = t.TicketId,
+                 Title        = t.Title,
+                 Status       = t.Status
+             };
 }
