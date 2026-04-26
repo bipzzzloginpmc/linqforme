@@ -68,7 +68,7 @@ public class Program
                         }
                     };
     
-     var result = from c in customers select c.FullName.Reverse().ToArray();
+     var result = from c in customers select c.FullName.Reverse();
         foreach (var item in result)
         {
             Console.WriteLine($"{String.Concat(item)}");
