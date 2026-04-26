@@ -68,10 +68,15 @@ public class Program
                         }
                     };
         
-        var result=from c in customers select c.FullName;
+        var result=from c in customers select new
+        {
+            CustomerName=c.FullName,
+            Email=c.Email,
+            TicketTitleCount=c.Tickets.Count()
+        };
         foreach (var item in result)
         {
-            Console.WriteLine(item);
+            Console.WriteLine($"{item.CustomerName} - {item.Email} - {item.TicketTitleCount}");
         }
     
     }
