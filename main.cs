@@ -68,16 +68,9 @@ public class Program
                         }
                     };
     
-      // Aggregate ticket titles into a summary sentence
-    string ticketSummary = (from c in customers
-                            from t in c.Tickets
-                            select t.Title)
-                            .Aggregate(
-                                seed: "Tickets: ",
-                                func: (summary, title) => summary + $"[{title}] ",
-                                resultSelector: s => s.TrimEnd()
-                            );
-    Console.WriteLine($"Aggregate  (ticket summary)     : {ticketSummary}");
+     var result=(from c in customers where c.CustomerId >1 select c.Tickets).Count();
+
+    Console.WriteLine($"Count {result}");
         // foreach (var item in result)
         // {
         //     Console.WriteLine($"{item}");
