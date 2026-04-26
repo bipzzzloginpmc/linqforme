@@ -68,7 +68,7 @@ public class Program
                         }
                     };
         
-        var result=from c in customers where c.Tickets.All(t=>t.Status=="Open") select c.FullName;
+        var result=from c in customers where c.Tickets.Any(t=>t.Status=="Open") select c.FullName;
         foreach (var item in result)
         {
             Console.WriteLine($"{item}");
