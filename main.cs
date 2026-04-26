@@ -68,29 +68,30 @@ public class Program
                         }
                     };
     
-var result = from c  in customers
-             from t  in c.Tickets.DefaultIfEmpty()
-             select new
-             {
-                 CustomerName = c.FullName,
-                 TicketTitle  = t == null ? "No Tickets" : t.Title
-             };
+     var result = (from c in customers
+              from t in c.Tickets
+              select t.Status)
+             .Distinct();
 
-foreach (var item in result)
-    Console.WriteLine($"{item.CustomerName} - {item.TicketTitle}");
+    var resolvedTicketIds = new List<int> { 102, 104 };     
+    var result = (from id in allTicketIds
+              select id)
+             .Except(resolvedTicketIds);
+
+    var result = (from id in morningTickets
+              select id)
+             .Intersect(eveningTickets);
 
 
-
-
- var defaultTicket = new Ticket { TicketId=0, Title="No Ticket", Status="N/A" };
-
-var result = from c in customers
-             from t in c.Tickets.DefaultIfEmpty(defaultTicket)
-             select new
-             {
-                 CustomerName = c.FullName,
-                 TicketId     = t.TicketId,
-                 Title        = t.Title,
-                 Status       = t.Status
-             };
+    var result = (from id in teamATickets
+              select id)
+             .Union(teamBTickets);
+             
+                                   
+        foreach (var item in result)
+        {
+            Console.WriteLine($"{item}");
+        }
+    
+    }
 }
