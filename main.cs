@@ -68,9 +68,9 @@ public class Program
                         }
                     };
     
-     var result=(from c in customers select c.Tickets.Count).Max();
+     var result=(from c in customers select c.Tickets.Count).Min();
 
-    Console.WriteLine($"MAX {result}");
+    Console.WriteLine($"Min {result}");
         // foreach (var item in result)
         // {
         //     Console.WriteLine($"{item}");
