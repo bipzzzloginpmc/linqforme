@@ -68,10 +68,16 @@ public class Program
                         }
                     };
         
-        var result=from c in customers where c.Tickets.Any(t=>t.Status=="Open") select c.FullName;
+        // Any()
+        // Takes a condition. Checks each element with your logic. Works on any object.
+
+        // Contains()
+        // Takes a value. Checks if that exact value exists. Best for simple types.
+
+        var result=from c in customers from t in c.Tickets where t.Comments.Any(x=>x.CreatedAt.Date<=DateTime.Now) select t;
         foreach (var item in result)
         {
-            Console.WriteLine($"{item}");
+            Console.WriteLine($"{item.TicketId}");
         }
     
     }
