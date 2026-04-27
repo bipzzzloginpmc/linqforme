@@ -18,17 +18,17 @@ public class Program
     
     public static async Task<IList<EmployeeGroupResult>> GetEmployeeGroupByEmpIDList(){
         using var db=new AppDbContext();
-        var result=await (from m in db.Employees.AsNoTracking()
-                    .Include(x=>x.Audit)
-                    .Include(x=>x.Department)
-                   orderby m.Gender, m.DeptId ascending
-                   group m by m.Department.DeptName into Dep
-                   select new EmployeeGroupResult {
-                        DeptId=Dep.Key,
-                        Employees=Dep.ToList()
+        var result=await (from e in db.Employees.AsNoTracking()
+                    join d in db.Departments.AsNoTracking()
+                    on e.DeptId equals d.DeptId 
+                    into DeptList
+                    from d in DeptList.DefaultIfEmpty()
+                   select new EmployeeGroupResult{
+                        DeptId=e.EmpId,
+                        Employees=e.FullName
                    }).ToListAsync();
 
-        return result;
+        return  result;
     }
     
     // public static async Task<IEnumerable<E>>
@@ -36,13 +36,6 @@ public class Program
         public static async Task Main()
         {
         var result = await GetEmployeeGroupByEmpIDList();
-        foreach(var s in result){
-            Console.WriteLine(s.DeptId);
-            foreach(var i in s.Employees){
-            Console.WriteLine($"{i.EmpId} - {i.FullName} - {i.EmpLocation} - {i.Department?.DeptName} - {i.Audit?.NetSalary}");
-            }
-        }
-
-       
+        Console.Write(result.Count()); 
     }
 }
