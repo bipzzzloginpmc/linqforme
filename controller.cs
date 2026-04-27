@@ -16,14 +16,13 @@ public class Program
         return await db.Employees.AsNoTracking().ToListAsync();
     }
     
-    public static async Task<IList<EmployeeGroupResult>> GetEMployeeList(){
+    public static async Task<IList<EmployeeGroupResult>> GetEmployeeGroupByEmpIDList(){
         using var db=new AppDbContext();
         var result=await (from m in db.Employees.AsNoTracking()
                     .Include(x=>x.Audit)
                     .Include(x=>x.Department)
-                    where m.AuditId >10
                    orderby m.Gender, m.DeptId ascending
-                   group m by m.DeptId into Dep
+                   group m by m.Department.DeptName into Dep
                    select new EmployeeGroupResult {
                         DeptId=Dep.Key,
                         Employees=Dep.ToList()
@@ -32,9 +31,11 @@ public class Program
         return result;
     }
     
+    // public static async Task<IEnumerable<E>>
+
         public static async Task Main()
-    {
-        var result = await GetEMployeeList();
+        {
+        var result = await GetEmployeeGroupByEmpIDList();
         foreach(var s in result){
             Console.WriteLine(s.DeptId);
             foreach(var i in s.Employees){
