@@ -2,6 +2,6 @@ using Model;
 namespace VModel;
 public class EmployeeGroupResult
 {
-    public int DeptId { get; set; }
-    public String Employees { get; set; }
+    public String DeptId { get; set; }
+    public IEnumerable<Employee> Employees { get; set; } = [];
 }
