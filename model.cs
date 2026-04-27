@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
+
+namespace Model;
 public class Employee
 {
     [System.ComponentModel.DataAnnotations.Key]
